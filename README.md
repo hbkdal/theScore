@@ -27,9 +27,11 @@ Android studio with cmd line tools
 theScore android app @ 24.5.0
 
 ### Python modules
-Appium-Python-Client @ 2.11.1  
+Appium-Python-Client @ 4.0 
 
 pytest @ 8.1.1
+
+selenium @ 4.19.0
 
 ## Installation
 

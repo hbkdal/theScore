@@ -2,6 +2,8 @@ import dataclasses
 import subprocess
 from typing import List
 
+from appium.options.android import UiAutomator2Options
+
 
 @dataclasses.dataclass(frozen=True)
 class TestDevice:
@@ -53,23 +55,12 @@ def get_android_devices() -> List[TestDevice]:
     return devices
 
 
-def _get_standard_capabilities():
-    return {
-        "autoAcceptAlerts":  True,
-        "autoDismissAlerts": True,
-        "newCommandTimeout": 15000,
-    }
-
-
-def get_capabilities_android(device: TestDevice) -> dict:
+def get_capabilities_android(device: TestDevice):
     """ Get caps for an Android device """
-    return {
-        "automationName":  "UIAutomator2",
-        "platformName":    "Android",
-        "platformVersion": device.version,
-        "udid":            device.name,
-        **_get_standard_capabilities()
-    }
+    options = UiAutomator2Options()
+    options.platformVersion = device.version
+    options.udid = device.name
+    return options
 
 
 def get_local_device_caps():

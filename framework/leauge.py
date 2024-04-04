@@ -22,11 +22,6 @@ def verify_league(name: str, driver: webdriver):
 
     check_tab(driver, 'News')
     check_tab(driver, 'Scores')
-    # chat = self.get_by_value('CHAT')
-    # self.tap(chat)
-    # standings = get_by_value('STANDINGS', driver)
-    # tap(driver, standings)
-    # leaders = self.get_by_value('LEADERS')
-    # self.tap(leaders)
+
     back = driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Navigate up')
     back.click()

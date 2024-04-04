@@ -2,7 +2,7 @@
 import pytest
 from appium.webdriver import WebElement
 from appium.webdriver.common.appiumby import AppiumBy
-from appium.webdriver.common.touch_action import TouchAction
+from selenium.webdriver import ActionChains
 
 
 def get_by_value(param, driver) -> WebElement | None:
@@ -27,14 +27,9 @@ def get_by_text(param, driver) -> WebElement | None:
 
 
 def tap(driver, element):
-    point = element.location
-    x = point['x'] + 1
-    y = point['y'] + 1
-    # this is deprecated and should ideally change to use W3C Actions like the plugin
-    # https://github.com/AppiumTestDistribution/appium-gestures-plugin but leaving for
-    # now as not to have too many dependencies
-    b = TouchAction(driver)
-    b.tap(None, x, y).perform()
+    size = element.size
+    x_offset = 1 - (size['width'] / 2)
+    ActionChains(driver).move_to_element_with_offset(element, x_offset, 0).click().perform()
 
 
 def get_page_title(driver, title_field):

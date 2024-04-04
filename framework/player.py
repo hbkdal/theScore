@@ -31,13 +31,6 @@ def verify_player(name: str, driver: webdriver):
     check_tab(driver, 'News')
     check_tab(driver, 'Info')
 
-    # season = get_by_value('SEASON', driver)
-    # season.click()
-    # career = get_by_value('CAREER', driver)
-    # career.click()
-    # game_log = get_by_value('GAME LOG', driver)
-    # game_log.click()
-
     back = driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Navigate up')
     back.click()
     sleep(2)

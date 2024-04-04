@@ -8,8 +8,9 @@ from typing import List
 
 import pytest
 from appium import webdriver
+from appium.options.android import UiAutomator2Options
 from appium.webdriver.common.appiumby import AppiumBy
-from appium.webdriver.common.touch_action import TouchAction
+from selenium.webdriver import ActionChains
 
 from framework.devices import TestDevice, get_local_device_caps
 
@@ -26,7 +27,7 @@ class Mobile_app:
     app_package: str
     platform_type: str
     android: bool
-    desired_caps: dict
+    options: UiAutomator2Options
     apk_list: [str]
     APPIUM_URL = getenv('APPIUM_URL', 'http://127.0.0.1:4723')
     remote_url = APPIUM_URL
@@ -34,8 +35,8 @@ class Mobile_app:
 
     def initialize_appium_driver(self):
         self.app_package = "com.fivemobile.thescore"
-        self.desired_caps = get_local_device_caps()
-        driver = webdriver.Remote(self.APPIUM_URL, self.desired_caps)
+        self.options = get_local_device_caps()
+        driver = webdriver.Remote(self.APPIUM_URL, options=self.options)
         self.my_driver = driver
 
         # let's reinstall ap to get to known state
@@ -58,7 +59,7 @@ class Mobile_app:
         self.terminate_app(self.app_package)
         self.uninstall_package(self.app_package)
         # Install the app
-        if not self.install_package(self.desired_caps['udid'], self.get_apks()):
+        if not self.install_package(self.options.udid, self.get_apks()):
             pytest.fail('App not installed')
         sleep(10)
 
@@ -70,11 +71,11 @@ class Mobile_app:
         for f in apk_dir_files:
             if f.endswith(".apk"):
                 apks.append(f)
-        apklist = []
+        apk_list = []
         for apk in apks:
             path = current_directory / "apk" / apk
-            apklist.append(str(path))
-        return apklist
+            apk_list.append(str(path))
+        return apk_list
 
     def uninstall_package(self, app_bundle_id):
         if not self.my_driver.is_app_installed(app_bundle_id):
@@ -120,12 +121,10 @@ class Mobile_app:
             pytest.fail('Did not find welcome message on app startup')
         # click the log in, commented out as it clicks the test not the link
         login = self.my_driver.find_element(AppiumBy.ID, 'com.fivemobile.thescore:id/txt_sign_in')
-        point = login.location
         size = login.size
-        x = point['x'] + size['width'] - 1
-        y = point['y'] + 1
-        b = TouchAction(self.my_driver)
-        b.tap(None, x, y).perform()
+        x_offset = size['width'] / 2 - 1
+        ActionChains(self.my_driver).move_to_element_with_offset(login, x_offset, 0).click().perform()
+
         # Should use credentials from external source....
         # insert email
         email = self.my_driver.find_element(AppiumBy.ID, 'com.fivemobile.thescore:id/email_input_edittext')

@@ -29,15 +29,6 @@ def verify_team(name: str, driver: webdriver):
     check_tab(driver, 'News')
     check_tab(driver, 'Info')
 
-    # team_stats = get_by_value('TEAM STATS', driver)
-    # team_stats.click()
-    # schedule = get_by_value('SCHEDULE', driver)
-    # schedule.click()
-    # player_stats = get_by_value('PLAYER STATS', driver)
-    # player_stats.click()
-    # roster = get_by_value('ROSTER', driver)
-    # roster.click()
-
     back = driver.find_element(AppiumBy.ACCESSIBILITY_ID, 'Navigate up')
     back.click()
     sleep(2)

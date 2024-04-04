@@ -81,20 +81,14 @@ def appium_driver(request):
 
 def test_League(leagues, appium_driver):
     """Test the leagues"""
-    result = verify_league(leagues, appium_driver)
-    if result == "FAIL":
-        pytest.fail(msg=result.Error)
+    verify_league(leagues, appium_driver)
 
 
 def test_Team(teams, appium_driver):
     """Test the teams"""
-    result = verify_team(teams, appium_driver)
-    if result == "FAIL":
-        pytest.fail(msg=result.Error)
+    verify_team(teams, appium_driver)
 
 
 def test_Player(players, appium_driver):
     """Test the players"""
-    result = verify_player(players, appium_driver)
-    if result == "FAIL":
-        pytest.fail(msg=result.Error)
+    verify_player(players, appium_driver)
