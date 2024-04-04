@@ -1,3 +1,4 @@
+"""common actions for the tests, should be refactored to  page object model"""
 import pytest
 from appium.webdriver import WebElement
 from appium.webdriver.common.appiumby import AppiumBy
@@ -29,6 +30,9 @@ def tap(driver, element):
     point = element.location
     x = point['x'] + 1
     y = point['y'] + 1
+    # this is deprecated and should ideally change to use W3C Actions like the plugin
+    # https://github.com/AppiumTestDistribution/appium-gestures-plugin but leaving for
+    # now as not to have too many dependencies
     b = TouchAction(driver)
     b.tap(None, x, y).perform()
 
@@ -40,7 +44,8 @@ def get_page_title(driver, title_field):
     title_text = title_elements[0].get_attribute('text')
     return title_text
 
-def check_tab(driver, name:str):
+
+def check_tab(driver, name: str):
     upper_name = name.upper()
     tab = get_by_value(upper_name, driver)
     tab.click()
@@ -50,4 +55,3 @@ def check_tab(driver, name:str):
         tab_active = tabs[0].get_attribute('selected')
         if not tab_active:
             pytest.fail(f'Expected tab {name} not active')
-

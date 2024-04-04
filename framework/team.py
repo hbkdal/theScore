@@ -1,3 +1,4 @@
+"""Simple tests to for teams"""
 from time import sleep
 
 import pytest

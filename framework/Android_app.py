@@ -1,3 +1,4 @@
+"""core android functionality"""
 import os
 import subprocess
 from os import getenv
